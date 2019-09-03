@@ -29,6 +29,7 @@ namespace _WicketShooter.Scripts.Game
                 Initialize();
                 return;
             }
+
             Destroy(this);
         }
 
@@ -42,11 +43,6 @@ namespace _WicketShooter.Scripts.Game
             currentGameState = GameStates.Play;
         }
 
-        public GameStates GetCurrentGameState()
-        {
-            return currentGameState;
-        }
-
-
+        public GameStates GetCurrentGameState() => currentGameState;
     }
 }

@@ -8,7 +8,7 @@ namespace _WicketShooter.Scripts.Movement
     {
         public float BaseSpeed;
         private float currentSpeed;
-        
+
         public Vector2 CurrentDirection = Vector2.zero;
         public Animator Animator;
 
@@ -47,7 +47,7 @@ namespace _WicketShooter.Scripts.Movement
 
         private void Move()
         {
-            rb2D.velocity = new Vector2(CurrentDirection.x * currentSpeed * mp, CurrentDirection.y * currentSpeed * mp);   
+            rb2D.velocity = new Vector2(CurrentDirection.x * currentSpeed * mp, CurrentDirection.y * currentSpeed * mp);
         }
     }
 }

@@ -5,7 +5,6 @@ namespace _WicketShooter.Scripts.Audio
 {
     public class AudioManager : MonoBehaviour
     {
-
         public Button AudioToggle;
         public Image AudioToggleImage;
         public Sprite MuteSprite;
