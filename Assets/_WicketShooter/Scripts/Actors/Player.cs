@@ -25,22 +25,40 @@ namespace _WicketShooter.Scripts.Actors
         private MovementSystem movementSystem;
         private AimManager aimManager;
 
+        private float scrollCooldown;
+        private const float CHANGE_WEAPON_COOLDOWN = .3f;
+
         private void Awake()
         {
             aimManager = GetComponent<AimManager>();
             movementSystem = GetComponent<MovementSystem>();
             movementSystem.SetMultiplier(SpeedMultiplier);
 
-            BaseWeaponsController = new BaseWeaponsController(StartingMeleeWeapon, StartingRangeWeapon, gameObject, aimManager);
-
             IInputControll inputSystem = KeyboardInput.Instance;
             inputSystem.OnInput += ManageInput;
         }
+
+        private void Start()
+        {
+            BaseWeaponsController = new BaseWeaponsController(StartingMeleeWeapon, StartingRangeWeapon, gameObject, aimManager);
+        }
+
+        private void FixedUpdate()
+        {
+            if ( scrollCooldown <= 0 )
+            {
+                return;
+            }
+
+            scrollCooldown -= Time.deltaTime;
+        }
+        
 
         private void ManageInput(Dictionary<InputType, InputData> inputs)
         {
             HandleMovement(inputs);
             HandleAttack(inputs);
+            HandleChangeGun(inputs);
         }
         
         private void HandleMovement(Dictionary<InputType, InputData> inputs)
@@ -54,7 +72,24 @@ namespace _WicketShooter.Scripts.Actors
 
             movementSystem.UpdateMovement(movement.Vector2Value);
         }
-        
+
+        private void HandleChangeGun(Dictionary<InputType, InputData> inputs)
+        {
+            var scroll = inputs.ContainsKey(InputType.ChangeGun);
+            if ( !scroll )
+            {
+                return;
+            }
+            
+            if ( scrollCooldown > 0 )
+            {
+                return;
+            }
+
+            scrollCooldown = CHANGE_WEAPON_COOLDOWN;
+            BaseWeaponsController.RotateRangeWeapon(gameObject);
+        }
+
         private void HandleAttack(Dictionary<InputType, InputData> inputs)
         {
             var melee = inputs.ContainsKey(InputType.Melee);

@@ -56,7 +56,7 @@ namespace _WicketShooter.Scripts.InputSystem
             var melee = Input.GetButton("Fire2") ? InputType.Melee : InputType.None;
 
             var movement = hadMovement ? InputType.Movement : InputType.None;
-            var changeGun = mouseWheel > 0 ? InputType.ChangeGun : InputType.None;
+            var changeGun = Math.Abs(mouseWheel) > 0.01 ? InputType.ChangeGun : InputType.None;
 
             var changeGunValue = new InputData() {FloatValue = mouseWheel};
             var movementValue = new InputData() {Vector2Value = new Vector2(horizontalMovement, verticalMovement)};
